@@ -84,6 +84,9 @@ echo "1) Terminator"
 echo "2) Google Chrome"
 echo "3) Visual Studio Code"
 echo "4) GitKraken"
+echo "5) kakaotalk 22.04"
+echo "6) anydesk"
+echo "7) WPS Office"
 echo "0) Exit"
 echo ""
 
@@ -93,6 +96,7 @@ read -p "Enter your choices (separated by spaces, e.g., '1 2 3'): " choices
 if [[ $choices != "0" ]]; then
   custom_echo "Updating package lists..." "green"
   sudo apt update && sudo apt upgrade -y
+  sudo apt-get install wget
 fi
 
 # 선택한 항목 설치
@@ -127,6 +131,33 @@ for choice in $choices; do
     sudo apt install -y ./gitkraken-amd64.deb
     rm gitkraken-amd64.deb
     custom_echo "GitKraken installed successfully!" "green"
+    ;;
+  5)
+    custom_echo "Installing kakaotalk 22.04..." "green"
+    sudo dpkg --add-architecture i386
+    sudo mkdir -pm755 /etc/apt/keyrings
+    sudo wget -O /etc/apt/keyrings/winehq-archive.key https://dl.winehq.org/wine-builds/winehq.key
+    sudo wget -NP /etc/apt/sources.list.d/ https://dl.winehq.org/wine-builds/ubuntu/dists/jammy/winehq-jammy.sources
+    sudo apt update
+    sudo apt install --install-recommends winehq-stable
+    sudo apt-get install -y fonts-nanum*
+    wget https://app-pc.kakaocdn.net/talk/win32/KakaoTalk_Setup.exe
+    LANG="ko_KR.UTF-8" wine KakaoTalk_Setup.exe
+    custom_echo "kakaotalk 22.04 installed successfully!" "green"
+    ;;
+  6)
+    custom_echo "Installing AnyDesk..." "green"
+    wget https://download.anydesk.com/linux/anydesk_6.4.0-1_amd64.deb
+    sudo apt install -y ./anydesk_6.4.0-1_amd64.deb
+    rm anydesk_6.4.0-1_amd64.deb
+    custom_echo "AnyDesk installed successfully!" "green"
+    ;;
+  7)
+    custom_echo "Installing WPS Office..." "green"
+    wget https://wdl1.pcfg.cache.wpscdn.com/wpsdl/wpsoffice/download/linux/11664/wps-office_11.1.0.11664.XA_amd64.deb
+    sudo apt install -y ./wps-office_11.1.0.11664.XA_amd64.deb
+    rm wps-office_11.1.0.11664.XA_amd64.deb
+    custom_echo "WPS Office installed successfully!" "green"
     ;;
   0)
     custom_echo "Installation cancelled." "red"
